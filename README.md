@@ -1,4 +1,8 @@
-# React + Vite
+# My Portfolio
+
+This project is a React-based portfolio website built with Vite and Tailwind CSS.
+
+## Development
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
