@@ -37,13 +37,13 @@ const KPICard = ({ text, index }) => {
     }
 
     const colorMap = {
-        blue: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20 hover:border-blue-500/60", glow: "hover:shadow-blue-500/20" },
-        green: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20 hover:border-emerald-500/60", glow: "hover:shadow-emerald-500/20" },
-        red: { text: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20 hover:border-rose-500/60", glow: "hover:shadow-rose-500/20" },
-        purple: { text: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20 hover:border-violet-500/60", glow: "hover:shadow-violet-500/20" },
-        yellow: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20 hover:border-amber-500/60", glow: "hover:shadow-amber-500/20" },
-        pink: { text: "text-fuchsia-400", bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/20 hover:border-fuchsia-500/60", glow: "hover:shadow-fuchsia-500/20" },
-        orange: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20 hover:border-orange-500/60", glow: "hover:shadow-orange-500/20" }
+        blue: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/40 hover:border-blue-500/80", glow: "hover:shadow-blue-500/20" },
+        green: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/40 hover:border-emerald-500/80", glow: "hover:shadow-emerald-500/20" },
+        red: { text: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/40 hover:border-rose-500/80", glow: "hover:shadow-rose-500/20" },
+        purple: { text: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/40 hover:border-violet-500/80", glow: "hover:shadow-violet-500/20" },
+        yellow: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/40 hover:border-amber-500/80", glow: "hover:shadow-amber-500/20" },
+        pink: { text: "text-fuchsia-400", bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/40 hover:border-fuchsia-500/80", glow: "hover:shadow-fuchsia-500/20" },
+        orange: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/40 hover:border-orange-500/80", glow: "hover:shadow-orange-500/20" }
     };
 
     const colors = colorMap[colorTheme];
@@ -57,7 +57,7 @@ const KPICard = ({ text, index }) => {
             viewport={{ once: true }}
             transition={{ delay: index * 0.05, type: "spring", stiffness: 300 }}
             className={`
-                relative p-6 rounded-2xl bg-void-900/60 backdrop-blur-md border 
+                relative p-6 rounded-2xl bg-void-900/60 backdrop-blur-md border-2 
                 transition-all duration-300 group cursor-default
                 ${colors.border} hover:shadow-xl ${colors.glow}
             `}
