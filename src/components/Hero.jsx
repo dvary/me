@@ -1,8 +1,53 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download, ArrowRight, Database, Server, Network } from 'lucide-react';
 import ParticleBackground from './ParticleBackground';
+
+const Typewriter = ({ text, speed = 100, delay = 1000 }) => {
+    const [displayText, setDisplayText] = useState('');
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [lineIndex, setLineIndex] = useState(0);
+
+    // text should be an array of strings, where each string is a new line
+    const lines = Array.isArray(text) ? text : [text];
+
+    useEffect(() => {
+        if (lineIndex >= lines.length) return;
+
+        const currentLine = lines[lineIndex];
+
+        if (currentIndex < currentLine.length) {
+            const timeout = setTimeout(() => {
+                setDisplayText(prev => prev + currentLine[currentIndex]);
+                setCurrentIndex(prev => prev + 1);
+            }, speed);
+            return () => clearTimeout(timeout);
+        } else {
+            // Line finished
+            if (lineIndex < lines.length - 1) {
+                // Move to next line
+                const timeout = setTimeout(() => {
+                    setDisplayText(prev => prev + '\n');
+                    setCurrentIndex(0);
+                    setLineIndex(prev => prev + 1);
+                }, speed * 5); // Pause before next line
+                return () => clearTimeout(timeout);
+            }
+        }
+    }, [currentIndex, lineIndex, lines, speed]);
+
+    return (
+        <span className="whitespace-pre-line">
+            {displayText}
+            <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                className="inline-block w-[3px] h-[1em] bg-blue-500 ml-1 align-middle"
+            />
+        </span>
+    );
+};
 
 const Hero = () => {
     return (
@@ -30,20 +75,23 @@ const Hero = () => {
                         transition={{ delay: 0.2, duration: 0.5 }}
                         className="inline-block"
                     >
-                        <h2 className="text-blue-400 font-mono font-bold tracking-widest text-lg md:text-xl mb-2 uppercase">
+                        <h2 className="text-blue-400 font-mono font-bold tracking-widest text-xl md:text-3xl mb-4 uppercase drop-shadow-lg">
                             &lt; Senior Data Engineer /&gt;
                         </h2>
                         <motion.div
                             initial={{ width: 0 }}
-                            animate={{ width: 80 }}
+                            animate={{ width: 120 }}
                             transition={{ delay: 0.5, duration: 0.5 }}
-                            className="h-1 bg-blue-600 rounded-full"
+                            className="h-1.5 bg-blue-600 rounded-full"
                         />
                     </motion.div>
 
-                    <h1 className="text-5xl md:text-7xl font-display font-bold text-slate-100 leading-tight">
-                        Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 animate-gradient">High-Scale</span> <br />
-                        Data Solutions.
+                    <h1 className="text-5xl md:text-7xl font-display font-bold leading-tight min-h-[160px] md:min-h-[220px] text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 animate-gradient pb-2">
+                        <Typewriter
+                            text={["Building High-Scale", "Data Solutions."]}
+                            speed={70}
+                            delay={100}
+                        />
                     </h1>
 
                     <p className="text-xl text-slate-400 max-w-xl leading-relaxed font-light">

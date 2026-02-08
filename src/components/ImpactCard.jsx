@@ -1,75 +1,115 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar, ChevronRight } from 'lucide-react';
+import { TrendingUp, Zap, ShieldCheck, Database, Layers, Brain, Coins, BarChart3, Lock, Clock } from 'lucide-react';
 
-const ImpactCard = ({ role, company, duration, achievements, delay }) => {
+const KPICard = ({ text, index }) => {
+    // Advanced heuristics for icon/color assignment
+    let icon = Database;
+    let colorTheme = "blue"; // default
+    let title = "Optimization";
+
+    const content = text.toLowerCase();
+
+    if (content.includes('cost') || content.includes('saving') || content.includes('fund')) {
+        icon = Coins;
+        colorTheme = "green";
+        title = "Cost Efficiency";
+    } else if (content.includes('security') || content.includes('governance') || content.includes('rls')) {
+        icon = Lock;
+        colorTheme = "red";
+        title = "Security & Governance";
+    } else if (content.includes('visualization') || content.includes('quicksight') || content.includes('reporting')) {
+        icon = BarChart3;
+        colorTheme = "purple";
+        title = "BI & Analytics";
+    } else if (content.includes('real-time') || content.includes('streaming') || content.includes('velocity')) {
+        icon = Zap;
+        colorTheme = "yellow";
+        title = "High Velocity";
+    } else if (content.includes('ai') || content.includes('genai') || content.includes('chatbot')) {
+        icon = Brain;
+        colorTheme = "pink";
+        title = "AI & Innovation";
+    } else if (content.includes('automation') || content.includes('manual')) {
+        icon = Clock;
+        colorTheme = "orange";
+        title = "Automation";
+    }
+
+    const colorMap = {
+        blue: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20 hover:border-blue-500/60", glow: "hover:shadow-blue-500/20" },
+        green: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20 hover:border-emerald-500/60", glow: "hover:shadow-emerald-500/20" },
+        red: { text: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20 hover:border-rose-500/60", glow: "hover:shadow-rose-500/20" },
+        purple: { text: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20 hover:border-violet-500/60", glow: "hover:shadow-violet-500/20" },
+        yellow: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20 hover:border-amber-500/60", glow: "hover:shadow-amber-500/20" },
+        pink: { text: "text-fuchsia-400", bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/20 hover:border-fuchsia-500/60", glow: "hover:shadow-fuchsia-500/20" },
+        orange: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20 hover:border-orange-500/60", glow: "hover:shadow-orange-500/20" }
+    };
+
+    const colors = colorMap[colorTheme];
+    const Icon = icon;
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05, y: -5 }}
             viewport={{ once: true }}
-            transition={{ delay: delay * 0.1 }}
-            className="relative pl-8 md:pl-0"
+            transition={{ delay: index * 0.05, type: "spring", stiffness: 300 }}
+            className={`
+                relative p-6 rounded-2xl bg-void-900/60 backdrop-blur-md border 
+                transition-all duration-300 group cursor-default
+                ${colors.border} hover:shadow-xl ${colors.glow}
+            `}
         >
-            {/* Timeline Line (Desktop) */}
-            <div className="hidden md:block absolute left-0 top-0 bottom-0 w-[1px] bg-slate-800 ml-[8.5rem]" />
-
-            <div className="md:flex gap-12 group">
-                {/* Time & Date Column */}
-                <div className="md:w-32 shrink-0 md:text-right pt-2">
-                    <div className="inline-flex items-center gap-2 text-sm font-mono text-slate-500 bg-void-900/80 px-3 py-1 rounded-full border border-slate-800">
-                        <Calendar size={12} />
-                        <span>{duration}</span>
-                    </div>
-                </div>
-
-                {/* Timeline Dot */}
-                <div className="hidden md:flex absolute left-[8.5rem] -ml-[5px] top-[1.5rem] w-3 h-3 rounded-full bg-blue-600 border-4 border-void-950 z-10 group-hover:scale-125 transition-transform" />
-
-                {/* Content Card */}
-                <div className="flex-1 bg-void-900/40 backdrop-blur-sm border border-slate-800 hover:border-blue-500/30 p-6 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-2">
-                        <div>
-                            <h3 className="text-2xl font-bold font-display text-slate-100 group-hover:text-blue-400 transition-colors">
-                                {role}
-                            </h3>
-                            <div className="flex items-center gap-2 text-lg text-slate-400 font-medium mt-1">
-                                <Briefcase size={16} className="text-blue-500" />
-                                {company}
-                            </div>
-                        </div>
-                    </div>
-
-                    <ul className="space-y-4">
-                        {achievements.map((item, i) => (
-                            <motion.li
-                                key={i}
-                                initial={{ opacity: 0, x: -10 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.1 + (i * 0.05) }}
-                                viewport={{ once: true }}
-                                className="flex items-start gap-3"
-                            >
-                                <span className="mt-1.5 min-w-[6px] h-[6px] rounded-full bg-blue-500/60" />
-                                <span className="text-slate-300 leading-relaxed text-[15px]">
-                                    {item.split(/(\d+%?)/).map((part, index) =>
-                                        /\d+%?/.test(part) ? (
-                                            <span key={index} className="text-white font-semibold">
-                                                {part}
-                                            </span>
-                                        ) : (
-                                            part
-                                        )
-                                    )}
-                                </span>
-                            </motion.li>
-                        ))}
-                    </ul>
-                </div>
+            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Icon size={80} />
             </div>
+
+            <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                <Icon className={`w-6 h-6 ${colors.text}`} />
+            </div>
+
+            <h4 className={`text-xs font-bold uppercase tracking-widest mb-3 ${colors.text} opacity-80`}>
+                {title}
+            </h4>
+
+            <p className="text-slate-300 text-sm leading-relaxed font-medium">
+                {text.split(/(\d+(?:%|\+|X)?)/).map((part, i) =>
+                    /\d+(?:%|\+|X)?/.test(part) ? (
+                        <span key={i} className={`font-bold text-white text-lg ${colors.text.replace('text-', 'decoration-')}`}>{part}</span>
+                    ) : (
+                        part
+                    )
+                )}
+            </p>
         </motion.div>
     );
 };
 
-export default ImpactCard;
+const ImpactCard = ({ role, company, duration, achievements }) => {
+    return (
+        <div className="relative">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-6 border-b border-slate-800/50">
+                <div>
+                    <h3 className="text-3xl font-bold font-display text-white mb-2">
+                        {role}
+                    </h3>
+                    <div className="text-xl text-blue-400 font-medium">{company}</div>
+                </div>
+                <div className="flex items-center gap-2 text-slate-500 font-mono mt-4 md:mt-0 bg-void-900 px-4 py-2 rounded-lg border border-slate-800">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    {duration}
+                </div>
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {achievements.map((item, i) => (
+                    <KPICard key={i} text={item} index={i} />
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default ImpactCard;
